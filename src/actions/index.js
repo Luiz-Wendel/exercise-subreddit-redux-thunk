@@ -2,9 +2,8 @@ export const REQUEST = 'REQUEST';
 export const REQUEST_SUCCESS = 'REQUEST_SUCCESS';
 export const REQUEST_ERROR = 'REQUEST_ERROR';
 
-export const request = (subreddit) => ({
+export const request = () => ({
   type: REQUEST,
-  subreddit,
 });
 
 export const requestSuccess = (data) => ({
@@ -19,7 +18,7 @@ export const requestError = (error) => ({
 
 export const fetchSubreddit = (subreddit) => {
   return (dispatch) => {
-    dispatch(request(subreddit));
+    dispatch(request());
 
     return fetch(`https://www.reddit.com/r/${subreddit}.json`)
       .then((response) => response.json())
