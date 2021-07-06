@@ -2,8 +2,9 @@ export const REQUEST = 'REQUEST';
 export const REQUEST_SUCCESS = 'REQUEST_SUCCESS';
 export const REQUEST_ERROR = 'REQUEST_ERROR';
 
-export const request = () => ({
+export const request = (subreddit) => ({
   type: REQUEST,
+  subreddit,
 });
 
 export const requestSuccess = (data) => ({
@@ -18,11 +19,15 @@ export const requestError = (error) => ({
 
 export const fetchSubreddit = (subreddit) => {
   return (dispatch) => {
-    dispatch(request());
+    dispatch(request(subreddit));
 
     return fetch(`https://www.reddit.com/r/${subreddit}.json`)
       .then((response) => response.json())
-      .then((data) => dispatch(requestSuccess(data)))
+      .then(({ data }) => {
+        const { children } = data;
+        const titles = children.map((posts) => posts.data.title);
+        dispatch(requestSuccess(titles));
+      })
       .catch((error) => dispatch(requestError(error)));
   };
 };

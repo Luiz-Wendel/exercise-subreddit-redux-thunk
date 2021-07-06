@@ -6,8 +6,9 @@ import {
 
 const INITIAL_STATE = {
   isLoading: true,
-  titlesList: [],
   error: null,
+  titlesList: [],
+  subreddit: '',
 };
 
 const subredditReducer = (state = INITIAL_STATE, action) => {
@@ -17,6 +18,7 @@ const subredditReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: true,
         error: null,
+        subreddit: action.subreddit,
       };
     case REQUEST_SUCCESS:
       return {
